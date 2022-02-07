@@ -1,5 +1,7 @@
 git.maze.io/go/math32 v0.0.0-20181106113604-c78ed91899f1 h1:VptAfeYGT/FPuzWFzyvne+vdXT881tTmEMhV+txQ+E0=
 git.maze.io/go/math32 v0.0.0-20181106113604-c78ed91899f1/go.mod h1:bJoNp9NkyV0uYcHyBBgt/o4wVEVc8wfGXFBV7qgPReE=
+github.com/Opioid/rgbe v0.0.0-20141201200131-01612e3f14b6 h1:FPWtmw1niniiHVez8PkOYk9TuE5Jrj2JTFDgx3G4FMA=
+github.com/Opioid/rgbe v0.0.0-20141201200131-01612e3f14b6/go.mod h1:p0iB75FalbQzHQ+JhI4pX21jtQsw440DnuW3bvuTb5I=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

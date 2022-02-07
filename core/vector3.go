@@ -72,6 +72,19 @@ func SaturateVector3(x Vector3) Vector3 {
 	return x
 }
 
+func LerpVector3(x0, x1 Vector3, t float32) Vector3 {
+	return Vector3{Lerp32(x0.X,x1.X,t), Lerp32(x0.Y,x1.Y,t), Lerp32(x0.Z,x1.Z,t)}
+}
+
+func OrthonormalBasis(n Vector3) (Vector3, Vector3) {
+	if n.Z < -0.999999 {
+		return Vector3{0, -1, 0}, Vector3{-1, 0, 0}
+	}
+	a := 1.0/(1.0+n.Z)
+	b := -n.X * n.Y * a
+	return Vector3{1.0-n.X*n.X*a, b, -n.X}, Vector3{b, 1.0-n.Y*n.Y*a, -n.Y}
+}
+
 func RandomInSphere(x0, x1, x2 float32) Vector3 {
 	theta := 2.0*x0 - 1.0
 	r := math32.Sqrt(1.0 - theta*theta)
@@ -100,10 +113,28 @@ func RandomOnHemiSphere(x0, x1 float32) Vector3 {
 	return Vector3{r * cs, r * sn, theta}
 }
 
+func RandomOnHemiSphereAround(x0, x1 float32, n Vector3) Vector3 {
+	v := RandomOnHemiSphere(x0, x1)
+	t := DotVector3(v, n)
+	if t<0.0 {
+		return v.Minus()
+	}
+	return v
+}
+
 func RandomOnCosineHemiSphere(x0, x1 float32) Vector3 {
 	p := RandomOnDisk(x0, x1)
-	z := math32.Max(Epsilon32, math32.Sqrt(math32.Max(Epsilon32, (1.0-p.X*p.X-p.Y*p.Y))))
+	z := math32.Max(0.0, math32.Sqrt(math32.Max(Epsilon32, (1.0-p.X*p.X-p.Y*p.Y))))
 	return Vector3{p.X, p.Y, z}
+}
+
+func RandomOnCosineHemiSphereAround(x0, x1 float32, n Vector3) Vector3 {
+	v := RandomOnCosineHemiSphere(x0, x1)
+	b0, b1 := OrthonormalBasis(n)
+	vx := v.X*b0.X + v.Y*n.X + v.Z*b1.X
+	vy := v.X*b0.Y + v.Y*n.Y + v.Z*b1.Y
+	vz := v.X*b0.Z + v.Y*n.Z + v.Z*b1.Z
+	return Vector3{vx, vy, vz}
 }
 
 func RandomCone(x0, x1, cosCutoff float32) Vector3 {

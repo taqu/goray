@@ -68,7 +68,7 @@ func (sampler *SamplerR2) Generate(n int32) float32 {
 }
 
 // Generate2 2d sample
-// [-0.5 0.5)
+// [0 1)
 func (sampler *SamplerR2) Generate2(n int32) Sample2 {
 	fn := float32(n)
 	a1 := R2_G1
@@ -101,7 +101,7 @@ func (sampler *SamplerJitteredR2) Generate(n int32) float32 {
 }
 
 // Generate2 2d sample
-// [-0.5 0.5)
+// [0 1)
 func (sampler *SamplerJitteredR2) Generate2(n int32) Sample2 {
 	fn := float32(n)
 	a1 := R2_G1

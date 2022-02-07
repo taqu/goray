@@ -47,6 +47,20 @@ func Saturate64(x float64) float64 {
 	return x
 }
 
+func Lerp32(x0, x1, t float32) float32 {
+	return x0 * (1.0-t) + x1 * t;
+}
+
+func Clamp0132(x float32) float32 {
+	if x<0 {
+		return 0
+	}else if 1<x {
+		return 1
+	}else{
+		return x
+	}
+}
+
 func Schlick(cosine, refIndex float32) float32 {
 	r0 := (1.0 - refIndex) / (1.0 + refIndex)
 	r0 = r0 * r0

@@ -15,6 +15,9 @@ type MaterialSample struct {
 type Material interface {
 	Sample(wi Vector3, eta0, eta1 float32) MaterialSample
 	Scatter(ray *Ray, hitRecord *HitRecord, attenuation *Vector3, scattered *Ray) bool
+	GetRoughness() float32
+	GetMetallic() float32
+	GetAlbedo() Vector3
 }
 
 type Lambertian struct {
@@ -40,6 +43,18 @@ func (material *Lambertian) Scatter(ray *Ray, hitRecord *HitRecord, attenuation 
 	*scattered = Ray{hitRecord.Position, coordinate.LocalToWorld(n)}
 	*attenuation = material.Albedo
 	return true
+}
+
+func (material *Lambertian) GetRoughness() float32 {
+	return 1.0
+}
+
+func (material *Lambertian) GetMetallic() float32 {
+	return 0.0
+}
+
+func (material *Lambertian) GetAlbedo() Vector3 {
+	return material.Albedo
 }
 
 func project2(x, y float32, v Vector3) float32 {
@@ -126,6 +141,7 @@ func ggx_VNDF(wo Vector3, roughness, eta0, eta1 float32) Vector3 {
 type Metal struct {
 	Albedo Vector3
 	Roughness float32
+	Metallic float32
 	RefIndex float32
 }
 
@@ -169,6 +185,18 @@ func (metal *Metal) Scatter(ray *Ray, hitRecord *HitRecord, attenuation *Vector3
 	*scattered = Ray{hitRecord.Position, reflected}
 	*attenuation = metal.Albedo
 	return 0.0001 < DotVector3(scattered.Direction, hitRecord.Normal)
+}
+
+func (material *Metal) GetRoughness() float32 {
+	return material.Roughness
+}
+
+func (material *Metal) GetMetallic() float32 {
+	return material.Metallic
+}
+
+func (material *Metal) GetAlbedo() Vector3 {
+	return material.Albedo
 }
 
 type Dielectric struct {
@@ -239,3 +267,16 @@ func (dielectric *Dielectric) Scatter(ray *Ray, hitRecord *HitRecord, attenuatio
 	}
 	return true
 }
+
+func (material *Dielectric) GetRoughness() float32 {
+	return 0.0
+}
+
+func (material *Dielectric) GetMetallic() float32 {
+	return 0.0
+}
+
+func (material *Dielectric) GetAlbedo() Vector3 {
+	return material.Albedo
+}
+
